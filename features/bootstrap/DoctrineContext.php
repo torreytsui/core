@@ -912,6 +912,30 @@ final class DoctrineContext implements Context
     }
 
     /**
+     * @Then the answer to the question :question should be :answer
+     */
+    public function theAnswerToTheQuestionShouldBe(string $q, string $a)
+    {
+        $questionRepository = $this->manager->getRepository(Question::class);
+
+        /** @var Question $question */
+        $question = $questionRepository->findOneBy([
+            'content' => $q,
+        ]);
+
+        if (null === $question) {
+            throw new \Exception(sprintf('Given question "%s" does not exist', $q));
+        }
+
+        $answer = $question->getAnswer();
+        if ($a !== $answer->getContent()) {
+            throw new \Exception(sprintf('The expected answer "%s" does not match the actual answer "%s"', $a, $answer->getContent()));
+        }
+
+        $this->manager->clear();
+    }
+
+    /**
      * @Given there are :nb nodes in a container :uuid
      */
     public function thereAreNodesInAContainer(int $nb, string $uuid)

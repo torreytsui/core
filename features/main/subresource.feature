@@ -24,6 +24,38 @@ Feature: Subresource support
     }
     """
 
+  Scenario: Put subresource one to one relation
+    Given there is an answer "42" to the question "What's the answer to the Ultimate Question of Life, the Universe and Everything?"
+    When I add "Content-Type" header equal to "application/ld+json"
+    And I send a "PUT" request to "/questions/1/answer" with body:
+    """
+    {
+      "@id": "/answers/1",
+      "content": "43",
+      "question": "/questions/1",
+      "relatedQuestions": [
+        "/questions/1"
+      ]
+    }
+    """
+    And the response status code should be 200
+    And the response should be in JSON
+    And the JSON should be equal to:
+    """
+    {
+      "@context": "/contexts/Answer",
+      "@id": "/answers/1",
+      "@type": "Answer",
+      "id": 1,
+      "content": "43",
+      "question": "/questions/1",
+      "relatedQuestions": [
+        "/questions/1"
+      ]
+    }
+    """
+    And the answer to the question "What's the answer to the Ultimate Question of Life, the Universe and Everything?" should be "43"
+
   Scenario: Get a non existant subresource
     Given there is an answer "42" to the question "What's the answer to the Ultimate Question of Life, the Universe and Everything?"
     When I send a "GET" request to "/questions/999999/answer"
