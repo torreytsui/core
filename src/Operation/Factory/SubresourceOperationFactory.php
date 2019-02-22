@@ -16,7 +16,9 @@ namespace ApiPlatform\Core\Operation\Factory;
 use ApiPlatform\Core\Bridge\Symfony\Routing\RouteNameGenerator;
 use ApiPlatform\Core\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
 use ApiPlatform\Core\Metadata\Property\Factory\PropertyNameCollectionFactoryInterface;
+use ApiPlatform\Core\Metadata\Property\SubresourceMetadata;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
+use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
 use ApiPlatform\Core\Operation\PathSegmentNameGeneratorInterface;
 
 /**
@@ -100,6 +102,55 @@ final class SubresourceOperationFactory implements SubresourceOperationFactoryIn
             }
 
             $rootResourceMetadata = $this->resourceMetadataFactory->create($rootResourceClass);
+
+            if (null !== $collectionOperations = $subresourceMetadata->getCollectionOperations()) {
+                foreach ($collectionOperations as $operationName => $operation) {
+
+                }
+            }
+
+            if (null !== $itemOperations = $subresourceMetadata->getItemOperations()) {
+                foreach ($itemOperations as $operationName => $operation) {
+
+                }
+            }
+
+            $this->populateOperation(
+                $resourceClass,
+                $tree,
+                $rootResourceClass,
+                $parentOperation,
+                $visited,
+                $depth,
+                $maxDepth,
+                $property,
+                $subresource,
+                $subresourceClass,
+                $subresourceMetadata,
+                $rootResourceMetadata,
+                $isLastItem,
+                $visiting
+            );
+        }
+    }
+
+    private function populateOperation(
+        string $resourceClass,
+        array &$tree,
+        string $rootResourceClass,
+        ?array $parentOperation,
+        array $visited,
+        int $depth,
+        ?int $maxDepth,
+        string $property,
+        SubresourceMetadata $subresource,
+        string $subresourceClass,
+        ResourceMetadata $subresourceMetadata,
+        ResourceMetadata $rootResourceMetadata,
+        bool $isLastItem,
+        string $visiting
+    ) {
+        try {
             $operationName = 'get';
             $operation = [
                 'property' => $property,
@@ -185,6 +236,8 @@ final class SubresourceOperationFactory implements SubresourceOperationFactoryIn
             $tree[$operation['route_name']] = $operation;
 
             $this->computeSubresourceOperations($subresourceClass, $tree, $rootResourceClass, $operation, $visited + [$visiting => true], ++$depth, $maxDepth);
+        } catch (\Exception $ex) {
+            // TODO: Remove try-catch. Put try catch here just to keep the git history for now
         }
     }
 }
