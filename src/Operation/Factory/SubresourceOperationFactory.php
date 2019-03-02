@@ -103,9 +103,31 @@ final class SubresourceOperationFactory implements SubresourceOperationFactoryIn
 
             $rootResourceMetadata = $this->resourceMetadataFactory->create($rootResourceClass);
 
-            if (null !== $collectionOperations = $subresourceMetadata->getCollectionOperations()) {
-                foreach ($collectionOperations as $operationName => $operation) {
+            $collectionOperations = $subresourceMetadata->getCollectionOperations();
 
+            // Backward compatible
+            $collectionOperations['get'] = $collectionOperations['get'] ?? ['method' => 'GET'];
+
+            if (null !== $collectionOperations) {
+                foreach ($collectionOperations as $operationName => $operation) {
+                    $this->populateOperation(
+                        $operationName,
+                        $operation,
+                        $resourceClass,
+                        $tree,
+                        $rootResourceClass,
+                        $parentOperation,
+                        $visited,
+                        $depth,
+                        $maxDepth,
+                        $property,
+                        $subresource,
+                        $subresourceClass,
+                        $subresourceMetadata,
+                        $rootResourceMetadata,
+                        $isLastItem,
+                        $visiting
+                    );
                 }
             }
 
@@ -114,27 +136,12 @@ final class SubresourceOperationFactory implements SubresourceOperationFactoryIn
 
                 }
             }
-
-            $this->populateOperation(
-                $resourceClass,
-                $tree,
-                $rootResourceClass,
-                $parentOperation,
-                $visited,
-                $depth,
-                $maxDepth,
-                $property,
-                $subresource,
-                $subresourceClass,
-                $subresourceMetadata,
-                $rootResourceMetadata,
-                $isLastItem,
-                $visiting
-            );
         }
     }
 
     private function populateOperation(
+        string $subresourceOperationName,
+        array $subresourceOperation,
         string $resourceClass,
         array &$tree,
         string $rootResourceClass,
