@@ -17,6 +17,7 @@ use ApiPlatform\Core\Bridge\Symfony\Routing\RouteNameGenerator;
 use ApiPlatform\Core\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
 use ApiPlatform\Core\Metadata\Property\Factory\PropertyNameCollectionFactoryInterface;
 use ApiPlatform\Core\Metadata\Property\SubresourceMetadata;
+use ApiPlatform\Core\Metadata\Resource\Factory\OperationResourceMetadataFactory;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
 use ApiPlatform\Core\Operation\PathSegmentNameGeneratorInterface;
@@ -34,13 +35,15 @@ final class SubresourceOperationFactory implements SubresourceOperationFactoryIn
     private $propertyNameCollectionFactory;
     private $propertyMetadataFactory;
     private $pathSegmentNameGenerator;
+    private $formats;
 
-    public function __construct(ResourceMetadataFactoryInterface $resourceMetadataFactory, PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, PathSegmentNameGeneratorInterface $pathSegmentNameGenerator)
+    public function __construct(ResourceMetadataFactoryInterface $resourceMetadataFactory, PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, PathSegmentNameGeneratorInterface $pathSegmentNameGenerator, array $formats = [])
     {
         $this->resourceMetadataFactory = $resourceMetadataFactory;
         $this->propertyNameCollectionFactory = $propertyNameCollectionFactory;
         $this->propertyMetadataFactory = $propertyMetadataFactory;
         $this->pathSegmentNameGenerator = $pathSegmentNameGenerator;
+        $this->formats = $formats;
     }
 
     /**
@@ -78,6 +81,7 @@ final class SubresourceOperationFactory implements SubresourceOperationFactoryIn
             $subresource = $propertyMetadata->getSubresource();
             $subresourceClass = $subresource->getResourceClass();
             $subresourceMetadata = $this->resourceMetadataFactory->create($subresourceClass);
+            $subresourceMetadata = OperationResourceMetadataFactory::populateOperations($subresourceClass, $subresourceMetadata, $this->formats);
             $isLastItem = $resourceClass === $parentOperation['resource_class'] && $propertyMetadata->isIdentifier();
 
             // A subresource that is also an identifier can't be a start point
@@ -103,38 +107,46 @@ final class SubresourceOperationFactory implements SubresourceOperationFactoryIn
 
             $rootResourceMetadata = $this->resourceMetadataFactory->create($rootResourceClass);
 
-            $collectionOperations = $subresourceMetadata->getCollectionOperations();
-
-            // Backward compatible
-            $collectionOperations['get'] = $collectionOperations['get'] ?? ['method' => 'GET'];
-
-            if (null !== $collectionOperations) {
-                foreach ($collectionOperations as $operationName => $operation) {
-                    $this->populateOperation(
-                        $operationName,
-                        $operation,
-                        $resourceClass,
-                        $tree,
-                        $rootResourceClass,
-                        $parentOperation,
-                        $visited,
-                        $depth,
-                        $maxDepth,
-                        $property,
-                        $subresource,
-                        $subresourceClass,
-                        $subresourceMetadata,
-                        $rootResourceMetadata,
-                        $isLastItem,
-                        $visiting
-                    );
-                }
+            foreach ($subresourceMetadata->getCollectionOperations() as $operationName => $operation) {
+                $this->populateOperation(
+                    $operationName,
+                    $operation,
+                    $resourceClass,
+                    $tree,
+                    $rootResourceClass,
+                    $parentOperation,
+                    $visited,
+                    $depth,
+                    $maxDepth,
+                    $property,
+                    $subresource,
+                    $subresourceClass,
+                    $subresourceMetadata,
+                    $rootResourceMetadata,
+                    $isLastItem,
+                    $visiting
+                );
             }
 
-            if (null !== $itemOperations = $subresourceMetadata->getItemOperations()) {
-                foreach ($itemOperations as $operationName => $operation) {
-
-                }
+            foreach ($subresourceMetadata->getItemOperations() as $operationName => $operation) {
+                $this->populateOperation(
+                    $operationName,
+                    $operation,
+                    $resourceClass,
+                    $tree,
+                    $rootResourceClass,
+                    $parentOperation,
+                    $visited,
+                    $depth,
+                    $maxDepth,
+                    $property,
+                    $subresource,
+                    $subresourceClass,
+                    $subresourceMetadata,
+                    $rootResourceMetadata,
+                    $isLastItem,
+                    $visiting
+                );
             }
         }
     }
@@ -158,17 +170,36 @@ final class SubresourceOperationFactory implements SubresourceOperationFactoryIn
         string $visiting
     ) {
         try {
-            $operationName = 'get';
+            /**
+             * Resolve operation name
+             * @see \ApiPlatform\Core\Metadata\Resource\Factory\OperationResourceMetadataFactory::createOperations
+             */
+            $operationName = strtolower($subresourceOperation['method']);
+
             $operation = [
                 'property' => $property,
                 'collection' => $subresource->isCollection(),
                 'resource_class' => $subresourceClass,
                 'shortNames' => [$subresourceMetadata->getShortName()],
+                'method' => $subresourceOperation['method'],
             ];
 
             if (null === $parentOperation) {
                 $rootShortname = $rootResourceMetadata->getShortName();
+
+                /**
+                 * $id, $resourceClass, $hasIdentifier
+                 * @see \ApiPlatform\Core\DataProvider\OperationDataProviderTrait::extractIdentifiers
+                 */
                 $operation['identifiers'] = [['id', $rootResourceClass, true]];
+
+                /**
+                 * Resolve full operation name by a predefined naming convention so that the operation can be customised
+                 *
+                 * Convention: $subresource(s)_$method_subresource
+                 *
+                 * Example: answer_get_subresource
+                 */
                 $operation['operation_name'] = sprintf(
                     '%s_%s%s',
                     RouteNameGenerator::inflector($operation['property'], $operation['collection'] ?? false),
@@ -176,8 +207,16 @@ final class SubresourceOperationFactory implements SubresourceOperationFactoryIn
                     self::SUBRESOURCE_SUFFIX
                 );
 
+                // Get operation definition from root resource
                 $subresourceOperation = $rootResourceMetadata->getSubresourceOperations()[$operation['operation_name']] ?? [];
 
+                /**
+                 * Resolve full route name by a predefined naming convention so that the operation can be customised
+                 *
+                 * Convention: $resource(s)_$subresource(s)_$method_subresource
+                 *
+                 * Example: api_question_answer_get_subresource
+                 */
                 $operation['route_name'] = sprintf(
                     '%s%s_%s',
                     RouteNameGenerator::ROUTE_NAME_PREFIX,
@@ -190,6 +229,11 @@ final class SubresourceOperationFactory implements SubresourceOperationFactoryIn
                     $prefix .= '/';
                 }
 
+                /**
+                 * Convention: /$resource(s)/{id}/$subresource{s}.{_format}
+                 *
+                 * Example: /question/{id}/answer.{format}
+                 */
                 $operation['path'] = $subresourceOperation['path'] ?? sprintf(
                     '/%s%s/{id}/%s%s',
                     $prefix,
@@ -205,11 +249,20 @@ final class SubresourceOperationFactory implements SubresourceOperationFactoryIn
                 $resourceMetadata = $this->resourceMetadataFactory->create($resourceClass);
                 $operation['identifiers'] = $parentOperation['identifiers'];
                 $operation['identifiers'][] = [$parentOperation['property'], $resourceClass, $isLastItem ? true : $parentOperation['collection']];
+
+                /**
+                 * Resolve full operation name by a defined naming convention so that the operation can be customised
+                 *
+                 * Convention: $subresource(s)_$grandsubresource_$method_subresource
+                 *
+                 * Example: answer_relatedQuestions_get_subresource
+                 */
                 $operation['operation_name'] = str_replace(
                     'get'.self::SUBRESOURCE_SUFFIX,
-                    RouteNameGenerator::inflector($isLastItem ? 'item' : $property, $operation['collection']).'_get'.self::SUBRESOURCE_SUFFIX,
+                    RouteNameGenerator::inflector($isLastItem ? 'item' : $property, $operation['collection']).'_'.$operationName.self::SUBRESOURCE_SUFFIX,
                     $parentOperation['operation_name']
                 );
+
                 $operation['route_name'] = str_replace($parentOperation['operation_name'], $operation['operation_name'], $parentOperation['route_name']);
 
                 if (!\in_array($resourceMetadata->getShortName(), $operation['shortNames'], true)) {
@@ -224,6 +277,7 @@ final class SubresourceOperationFactory implements SubresourceOperationFactoryIn
                     $operation['path'] = str_replace(self::FORMAT_SUFFIX, '', (string) $parentOperation['path']);
 
                     if ($parentOperation['collection']) {
+                        // Assume that as it is a COLLECTION, the path is related to the LAST ID above
                         [$key] = end($operation['identifiers']);
                         $operation['path'] .= sprintf('/{%s}', $key);
                     }
@@ -242,9 +296,34 @@ final class SubresourceOperationFactory implements SubresourceOperationFactoryIn
 
             $tree[$operation['route_name']] = $operation;
 
-            $this->computeSubresourceOperations($subresourceClass, $tree, $rootResourceClass, $operation, $visited + [$visiting => true], ++$depth, $maxDepth);
+            if ('GET' === $operation['method']) {
+                /**
+                 * Simple solution to avoid collision among operations on depth >= 3
+                 *
+                 * (Limitation: nested subresources must be enabled by GET predecessor)
+                 *
+                 * Each subresource may contain multiple operations (e.g., GET and PUT). If a subresource contain
+                 * another subresource, this brings the depth up to 3. In this situation, each operation computes
+                 * from the parent subresource will collide with each other, for example:
+                 *
+                 * question_get_item
+                 *  |
+                 *  |- question_answer_get_subresource
+                 *  |   |
+                 *  |   |- question_answer_related_questions_get_subresource (collision 1)
+                 *  |   |- question_answer_related_questions_put_subresource (collision 2)
+                 *  |
+                 *  |- question_answer_put_subresource
+                 *      |
+                 *      |- question_answer_related_questions_get_subresource (collision 1)
+                 *      |- question_answer_related_questions_put_subresource (collision 2)
+                 *
+                 */
+                $this->computeSubresourceOperations($subresourceClass, $tree, $rootResourceClass, $operation, $visited + [$visiting => true], ++$depth, $maxDepth);
+            }
         } catch (\Exception $ex) {
             // TODO: Remove try-catch. Put try catch here just to keep the git history for now
+            throw $ex;
         }
     }
 }
