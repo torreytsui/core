@@ -20,7 +20,7 @@ use ApiPlatform\Core\Metadata\Property\PropertyNameCollection;
 use ApiPlatform\Core\Metadata\Property\SubresourceMetadata;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
-use ApiPlatform\Core\Operation\Factory\SubresourceOperationFactory;
+use ApiPlatform\Core\Operation\Factory\SubresourceOperationsFactory;
 use ApiPlatform\Core\Operation\UnderscorePathSegmentNameGenerator;
 use ApiPlatform\Core\Tests\Fixtures\DummyEntity;
 use ApiPlatform\Core\Tests\Fixtures\DummyValidatedEntity;
@@ -79,7 +79,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 $property = 'anotherSubresource'
             );
 
-        $subresourceOperationFactory = new SubresourceOperationFactory($resourceMetadataFactory, $propertyNameCollectionMetadataFactory, $propertyMetadataFactory, new UnderscorePathSegmentNameGenerator());
+        $subresourceOperationFactory = new SubresourceOperationsFactory($resourceMetadataFactory, $propertyNameCollectionMetadataFactory, $propertyMetadataFactory, new UnderscorePathSegmentNameGenerator());
 
         $this->assertEquals([
             'api_dummy_entities_subresource_item_get_subresource' => [
@@ -94,7 +94,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_item_delete_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -107,7 +107,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_item_put_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -120,7 +120,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_put_subresource',
                 'method' => 'PUT',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_another_subresource_item_get_subresource' => [
                 'property' => 'anotherSubresource',
                 'collection' => false,
@@ -134,7 +134,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource/another_subresource.{_format}',
                 'operation_name' => 'subresource_another_subresource_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_another_subresource_item_delete_subresource' => [
                 'property' => 'anotherSubresource',
                 'collection' => false,
@@ -148,7 +148,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource/another_subresource.{_format}',
                 'operation_name' => 'subresource_another_subresource_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_another_subresource_item_put_subresource' => [
                 'property' => 'anotherSubresource',
                 'collection' => false,
@@ -162,7 +162,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource/another_subresource.{_format}',
                 'operation_name' => 'subresource_another_subresource_item_put_subresource',
                 'method' => 'PUT',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_another_subresource_subcollections_get_subresource' => [
                 'property' => 'subcollection',
                 'collection' => true,
@@ -177,7 +177,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource/another_subresource/subcollections.{_format}',
                 'operation_name' => 'subresource_another_subresource_subcollections_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_another_subresource_subcollections_post_subresource' => [
                 'property' => 'subcollection',
                 'collection' => true,
@@ -192,7 +192,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource/another_subresource/subcollections.{_format}',
                 'operation_name' => 'subresource_another_subresource_subcollections_post_subresource',
                 'method' => 'POST',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_another_subresource_subcollections_item_get_subresource' => [
                 'property' => 'subcollection',
                 'collection' => false,
@@ -208,7 +208,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource/another_subresource/subcollections/{subcollection}.{_format}',
                 'operation_name' => 'subresource_another_subresource_subcollections_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_another_subresource_subcollections_item_delete_subresource' => [
                 'property' => 'subcollection',
                 'collection' => false,
@@ -224,7 +224,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource/another_subresource/subcollections/{subcollection}.{_format}',
                 'operation_name' => 'subresource_another_subresource_subcollections_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_another_subresource_subcollections_item_put_subresource' => [
                 'property' => 'subcollection',
                 'collection' => false,
@@ -240,7 +240,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource/another_subresource/subcollections/{subcollection}.{_format}',
                 'operation_name' => 'subresource_another_subresource_subcollections_item_put_subresource',
                 'method' => 'PUT',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_get_subresource' => [
                 'property' => 'subcollection',
                 'collection' => true,
@@ -253,7 +253,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subcollections.{_format}',
                 'operation_name' => 'subcollections_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_post_subresource' => [
                 'property' => 'subcollection',
                 'collection' => true,
@@ -266,7 +266,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subcollections.{_format}',
                 'operation_name' => 'subcollections_post_subresource',
                 'method' => 'POST',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_item_get_subresource' => [
                 'property' => 'subcollection',
                 'collection' => false,
@@ -280,7 +280,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subcollections/{subcollection}.{_format}',
                 'operation_name' => 'subcollections_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_item_delete_subresource' => [
                 'property' => 'subcollection',
                 'collection' => false,
@@ -294,7 +294,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subcollections/{subcollection}.{_format}',
                 'operation_name' => 'subcollections_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_item_put_subresource' => [
                 'property' => 'subcollection',
                 'collection' => false,
@@ -308,7 +308,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subcollections/{subcollection}.{_format}',
                 'operation_name' => 'subcollections_item_put_subresource',
                 'method' => 'PUT',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_another_subresource_item_get_subresource' => [
                 'property' => 'anotherSubresource',
                 'collection' => false,
@@ -322,7 +322,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subcollections/{subcollection}/another_subresource.{_format}',
                 'operation_name' => 'subcollections_another_subresource_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_another_subresource_item_delete_subresource' => [
                 'property' => 'anotherSubresource',
                 'collection' => false,
@@ -336,7 +336,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subcollections/{subcollection}/another_subresource.{_format}',
                 'operation_name' => 'subcollections_another_subresource_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_another_subresource_item_put_subresource' => [
                 'property' => 'anotherSubresource',
                 'collection' => false,
@@ -350,7 +350,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subcollections/{subcollection}/another_subresource.{_format}',
                 'operation_name' => 'subcollections_another_subresource_item_put_subresource',
                 'method' => 'PUT',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_another_subresource_subresource_item_get_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -365,7 +365,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subcollections/{subcollection}/another_subresource/subresource.{_format}',
                 'operation_name' => 'subcollections_another_subresource_subresource_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_another_subresource_subresource_item_delete_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -380,7 +380,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subcollections/{subcollection}/another_subresource/subresource.{_format}',
                 'operation_name' => 'subcollections_another_subresource_subresource_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_another_subresource_subresource_item_put_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -395,7 +395,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subcollections/{subcollection}/another_subresource/subresource.{_format}',
                 'operation_name' => 'subcollections_another_subresource_subresource_item_put_subresource',
                 'method' => 'PUT',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
         ], $subresourceOperationFactory->create(DummyEntity::class));
     }
 
@@ -475,7 +475,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 $property = 'anotherSubresource'
             );
 
-        $subresourceOperationFactory = new SubresourceOperationFactory($resourceMetadataFactory, $propertyNameCollectionMetadataFactory, $propertyMetadataFactory, new UnderscorePathSegmentNameGenerator());
+        $subresourceOperationFactory = new SubresourceOperationsFactory($resourceMetadataFactory, $propertyNameCollectionMetadataFactory, $propertyMetadataFactory, new UnderscorePathSegmentNameGenerator());
 
         $this->assertEquals([
             'api_dummy_entities_subresource_item_get_subresource' => [
@@ -490,7 +490,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_item_delete_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -503,7 +503,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_item_put_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -516,7 +516,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_put_subresource',
                 'method' => 'PUT',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_another_subresource_item_get_subresource' => [
                 'property' => 'anotherSubresource',
                 'collection' => false,
@@ -530,7 +530,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource/another_subresource.{_format}',
                 'operation_name' => 'subresource_another_subresource_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_another_subresource_item_delete_subresource' => [
                 'property' => 'anotherSubresource',
                 'collection' => false,
@@ -544,7 +544,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource/another_subresource.{_format}',
                 'operation_name' => 'subresource_another_subresource_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_another_subresource_item_put_subresource' => [
                 'property' => 'anotherSubresource',
                 'collection' => false,
@@ -558,7 +558,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource/another_subresource.{_format}',
                 'operation_name' => 'subresource_another_subresource_item_put_subresource',
                 'method' => 'PUT',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_another_subresource_subcollections_get_subresource' => [
                 'property' => 'subcollection',
                 'collection' => true,
@@ -573,7 +573,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource/another_subresource/subcollections.{_format}',
                 'operation_name' => 'subresource_another_subresource_subcollections_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_another_subresource_subcollections_post_subresource' => [
                 'property' => 'subcollection',
                 'collection' => true,
@@ -588,7 +588,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource/another_subresource/subcollections.{_format}',
                 'operation_name' => 'subresource_another_subresource_subcollections_post_subresource',
                 'method' => 'POST',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_another_subresource_subcollections_item_get_subresource' => [
                 'property' => 'subcollection',
                 'collection' => false,
@@ -604,7 +604,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource/another_subresource/subcollections/{subcollection}.{_format}',
                 'operation_name' => 'subresource_another_subresource_subcollections_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_another_subresource_subcollections_item_delete_subresource' => [
                 'property' => 'subcollection',
                 'collection' => false,
@@ -620,7 +620,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource/another_subresource/subcollections/{subcollection}.{_format}',
                 'operation_name' => 'subresource_another_subresource_subcollections_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_another_subresource_subcollections_item_put_subresource' => [
                 'property' => 'subcollection',
                 'collection' => false,
@@ -636,7 +636,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource/another_subresource/subcollections/{subcollection}.{_format}',
                 'operation_name' => 'subresource_another_subresource_subcollections_item_put_subresource',
                 'method' => 'PUT',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_get_subresource' => [
                 'property' => 'subcollection',
                 'collection' => true,
@@ -649,7 +649,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/foobars',
                 'operation_name' => 'subcollections_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_post_subresource' => [
                 'property' => 'subcollection',
                 'collection' => true,
@@ -662,7 +662,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/foobars',
                 'operation_name' => 'subcollections_post_subresource',
                 'method' => 'POST',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_item_get_subresource' => [
                 'property' => 'subcollection',
                 'collection' => false,
@@ -676,7 +676,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/foobars/{subcollection}',
                 'operation_name' => 'subcollections_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_item_delete_subresource' => [
                 'property' => 'subcollection',
                 'collection' => false,
@@ -690,7 +690,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/foobars/{subcollection}',
                 'operation_name' => 'subcollections_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_item_put_subresource' => [
                 'property' => 'subcollection',
                 'collection' => false,
@@ -704,7 +704,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/foobars/{subcollection}',
                 'operation_name' => 'subcollections_item_put_subresource',
                 'method' => 'PUT',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_another_subresource_item_get_subresource' => [
                 'property' => 'anotherSubresource',
                 'collection' => false,
@@ -718,7 +718,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/foobars/{subcollection}/another_foobar.{_format}',
                 'operation_name' => 'subcollections_another_subresource_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_another_subresource_item_delete_subresource' => [
                 'property' => 'anotherSubresource',
                 'collection' => false,
@@ -732,7 +732,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/foobars/{subcollection}/another_foobar.{_format}',
                 'operation_name' => 'subcollections_another_subresource_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_another_subresource_item_put_subresource' => [
                 'property' => 'anotherSubresource',
                 'collection' => false,
@@ -746,7 +746,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/foobars/{subcollection}/another_foobar.{_format}',
                 'operation_name' => 'subcollections_another_subresource_item_put_subresource',
                 'method' => 'PUT',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_another_subresource_subresource_item_get_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -761,7 +761,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/foobars/{subcollection}/another_foobar/subresource.{_format}',
                 'operation_name' => 'subcollections_another_subresource_subresource_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_another_subresource_subresource_item_delete_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -776,7 +776,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/foobars/{subcollection}/another_foobar/subresource.{_format}',
                 'operation_name' => 'subcollections_another_subresource_subresource_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subcollections_another_subresource_subresource_item_put_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -791,7 +791,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/foobars/{subcollection}/another_foobar/subresource.{_format}',
                 'operation_name' => 'subcollections_another_subresource_subresource_item_put_subresource',
                 'method' => 'PUT',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
         ], $subresourceOperationFactory->create(DummyEntity::class));
     }
 
@@ -829,7 +829,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 $property = 'anotherSubresource'
             );
 
-        $subresourceOperationFactory = new SubresourceOperationFactory($resourceMetadataFactory, $propertyNameCollectionMetadataFactory, $propertyMetadataFactory, new UnderscorePathSegmentNameGenerator());
+        $subresourceOperationFactory = new SubresourceOperationsFactory($resourceMetadataFactory, $propertyNameCollectionMetadataFactory, $propertyMetadataFactory, new UnderscorePathSegmentNameGenerator());
 
         $this->assertEquals([
             'api_dummy_entities_subresource_item_get_subresource' => [
@@ -844,7 +844,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_item_delete_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -857,7 +857,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_item_put_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -870,7 +870,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_put_subresource',
                 'method' => 'PUT',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
         ], $subresourceOperationFactory->create(DummyEntity::class));
     }
 
@@ -930,7 +930,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 $property = 'moreSubresource'
             );
 
-        $subresourceOperationFactory = new SubresourceOperationFactory($resourceMetadataFactory, $propertyNameCollectionMetadataFactory, $propertyMetadataFactory, new UnderscorePathSegmentNameGenerator());
+        $subresourceOperationFactory = new SubresourceOperationsFactory($resourceMetadataFactory, $propertyNameCollectionMetadataFactory, $propertyMetadataFactory, new UnderscorePathSegmentNameGenerator());
 
         $this->assertEquals([
             'api_dummy_entities_subresource_item_get_subresource' => [
@@ -945,7 +945,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_item_delete_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -958,7 +958,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_item_put_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -971,7 +971,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_put_subresource',
                 'method' => 'PUT',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_second_subresource_item_get_subresource' => [
                 'property' => 'secondSubresource',
                 'collection' => false,
@@ -984,7 +984,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/second_subresource.{_format}',
                 'operation_name' => 'second_subresource_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_second_subresource_item_delete_subresource' => [
                 'property' => 'secondSubresource',
                 'collection' => false,
@@ -997,7 +997,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/second_subresource.{_format}',
                 'operation_name' => 'second_subresource_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_second_subresource_item_put_subresource' => [
                 'property' => 'secondSubresource',
                 'collection' => false,
@@ -1010,7 +1010,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/second_subresource.{_format}',
                 'operation_name' => 'second_subresource_item_put_subresource',
                 'method' => 'PUT',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_second_subresource_more_subresource_item_get_subresource' => [
                 'property' => 'moreSubresource',
                 'collection' => false,
@@ -1024,7 +1024,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/second_subresource/more_subresource.{_format}',
                 'operation_name' => 'second_subresource_more_subresource_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_second_subresource_more_subresource_item_delete_subresource' => [
                 'property' => 'moreSubresource',
                 'collection' => false,
@@ -1038,7 +1038,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/second_subresource/more_subresource.{_format}',
                 'operation_name' => 'second_subresource_more_subresource_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_second_subresource_more_subresource_item_put_subresource' => [
                 'property' => 'moreSubresource',
                 'collection' => false,
@@ -1052,7 +1052,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/second_subresource/more_subresource.{_format}',
                 'operation_name' => 'second_subresource_more_subresource_item_put_subresource',
                 'method' => 'PUT',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
         ], $subresourceOperationFactory->create(DummyEntity::class));
     }
 
@@ -1112,7 +1112,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 $property = 'moreSubresource'
             );
 
-        $subresourceOperationFactory = new SubresourceOperationFactory($resourceMetadataFactory, $propertyNameCollectionMetadataFactory, $propertyMetadataFactory, new UnderscorePathSegmentNameGenerator());
+        $subresourceOperationFactory = new SubresourceOperationsFactory($resourceMetadataFactory, $propertyNameCollectionMetadataFactory, $propertyMetadataFactory, new UnderscorePathSegmentNameGenerator());
 
         $this->assertEquals([
             'api_dummy_entities_subresource_item_get_subresource' => [
@@ -1127,7 +1127,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_item_delete_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -1140,7 +1140,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_item_put_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -1153,7 +1153,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_put_subresource',
                 'method' => 'PUT',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_second_subresource_item_get_subresource' => [
                 'property' => 'secondSubresource',
                 'collection' => false,
@@ -1166,7 +1166,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/second_subresource.{_format}',
                 'operation_name' => 'second_subresource_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_second_subresource_item_delete_subresource' => [
                 'property' => 'secondSubresource',
                 'collection' => false,
@@ -1179,7 +1179,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/second_subresource.{_format}',
                 'operation_name' => 'second_subresource_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_second_subresource_item_put_subresource' => [
                 'property' => 'secondSubresource',
                 'collection' => false,
@@ -1192,7 +1192,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/second_subresource.{_format}',
                 'operation_name' => 'second_subresource_item_put_subresource',
                 'method' => 'PUT',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
         ], $subresourceOperationFactory->create(DummyEntity::class));
     }
 
@@ -1218,7 +1218,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 $property = 'subresource'
             );
 
-        $subresourceOperationFactory = new SubresourceOperationFactory($resourceMetadataFactory, $propertyNameCollectionMetadataFactory, $propertyMetadataFactory, new UnderscorePathSegmentNameGenerator());
+        $subresourceOperationFactory = new SubresourceOperationsFactory($resourceMetadataFactory, $propertyNameCollectionMetadataFactory, $propertyMetadataFactory, new UnderscorePathSegmentNameGenerator());
 
         $this->assertEquals([
             'api_dummy_entities_subresource_item_get_subresource' => [
@@ -1233,7 +1233,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_item_delete_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -1246,7 +1246,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_item_put_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -1306,7 +1306,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 $property = 'id'
             );
 
-        $subresourceOperationFactory = new SubresourceOperationFactory($resourceMetadataFactory, $propertyNameCollectionMetadataFactory, $propertyMetadataFactory, new UnderscorePathSegmentNameGenerator());
+        $subresourceOperationFactory = new SubresourceOperationsFactory($resourceMetadataFactory, $propertyNameCollectionMetadataFactory, $propertyMetadataFactory, new UnderscorePathSegmentNameGenerator());
 
         $result = $subresourceOperationFactory->create(DummyEntity::class);
         $this->assertEquals([
@@ -1322,7 +1322,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresources.{_format}',
                 'operation_name' => 'subresources_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresources_post_subresource' => [
                 'property' => 'subresource',
                 'collection' => true,
@@ -1335,7 +1335,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresources.{_format}',
                 'operation_name' => 'subresources_post_subresource',
                 'method' => 'POST',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresources_item_delete_subresource' => [
                 'property' => 'id',
                 'collection' => false,
@@ -1349,7 +1349,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresources/{subresource}.{_format}',
                 'operation_name' => 'subresources_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresources_item_put_subresource' => [
                 'property' => 'id',
                 'collection' => false,
@@ -1363,7 +1363,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresources/{subresource}.{_format}',
                 'operation_name' => 'subresources_item_put_subresource',
                 'method' => 'PUT',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresources_item_get_subresource' => [
                 'property' => 'id',
                 'collection' => false,
@@ -1377,7 +1377,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresources/{subresource}.{_format}',
                 'operation_name' => 'subresources_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
         ], $result);
     }
 
@@ -1392,7 +1392,7 @@ class SubresourceOperationFactoryTest extends TestCase
         array $expectedSubresourceOperations,
         array $expectedDeprecations
     ) {
-        $subresourceOperationFactory = new SubresourceOperationFactory(
+        $subresourceOperationFactory = new SubresourceOperationsFactory(
             $resourceMetadataFactory,
             $propertyNameCollectionFactory,
             $propertyMetadataFactory,
@@ -1457,7 +1457,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/another_subresource.{_format}',
                         'operation_name' => 'another_subresource_item_delete_subresource',
                         'method' => 'DELETE',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_another_subresource_item_put_subresource' => [
                         'property' => 'anotherSubresource',
                         'collection' => false,
@@ -1470,7 +1470,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/another_subresource.{_format}',
                         'operation_name' => 'another_subresource_item_put_subresource',
                         'method' => 'PUT',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_another_subresource_item_get_subresource' => [
                         'property' => 'anotherSubresource',
                         'collection' => false,
@@ -1483,7 +1483,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/another_subresource.{_format}',
                         'operation_name' => 'another_subresource_item_get_subresource',
                         'method' => 'GET',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                 ],
                 $expectedDeprecations = [],
             ],
@@ -1536,7 +1536,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/another_subresources.{_format}',
                         'operation_name' => 'another_subresources_get_subresource',
                         'method' => 'GET',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_another_subresources_post_subresource' => [
                         'property' => 'anotherSubresource',
                         'collection' => true,
@@ -1549,7 +1549,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/another_subresources.{_format}',
                         'operation_name' => 'another_subresources_post_subresource',
                         'method' => 'POST',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_another_subresources_item_delete_subresource' => [
                         'property' => 'anotherSubresource',
                         'collection' => false,
@@ -1563,7 +1563,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/another_subresources/{anotherSubresource}.{_format}',
                         'operation_name' => 'another_subresources_item_delete_subresource',
                         'method' => 'DELETE',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_another_subresources_item_put_subresource' => [
                         'property' => 'anotherSubresource',
                         'collection' => false,
@@ -1577,7 +1577,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/another_subresources/{anotherSubresource}.{_format}',
                         'operation_name' => 'another_subresources_item_put_subresource',
                         'method' => 'PUT',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_another_subresources_item_get_subresource' => [
                         'property' => 'anotherSubresource',
                         'collection' => false,
@@ -1591,7 +1591,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/another_subresources/{anotherSubresource}.{_format}',
                         'operation_name' => 'another_subresources_item_get_subresource',
                         'method' => 'GET',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_another_subresources_another_subresources_get_subresource' => [
                         'property' => 'anotherSubresource',
                         'collection' => true,
@@ -1605,7 +1605,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/another_subresources/{anotherSubresource}/another_subresources.{_format}',
                         'operation_name' => 'another_subresources_another_subresources_get_subresource',
                         'method' => 'GET',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_another_subresources_another_subresources_post_subresource' => [
                         'property' => 'anotherSubresource',
                         'collection' => true,
@@ -1619,7 +1619,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/another_subresources/{anotherSubresource}/another_subresources.{_format}',
                         'operation_name' => 'another_subresources_another_subresources_post_subresource',
                         'method' => 'POST',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_another_subresources_another_subresources_item_delete_subresource' => [
                         'property' => 'anotherSubresource',
                         'collection' => false,
@@ -1634,7 +1634,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/another_subresources/{anotherSubresource}/another_subresources/{anotherSubresourceAnotherSubresource}.{_format}',
                         'operation_name' => 'another_subresources_another_subresources_item_delete_subresource',
                         'method' => 'DELETE',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_another_subresources_another_subresources_item_put_subresource' => [
                         'property' => 'anotherSubresource',
                         'collection' => false,
@@ -1649,7 +1649,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/another_subresources/{anotherSubresource}/another_subresources/{anotherSubresourceAnotherSubresource}.{_format}',
                         'operation_name' => 'another_subresources_another_subresources_item_put_subresource',
                         'method' => 'PUT',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_another_subresources_another_subresources_item_get_subresource' => [
                         'property' => 'anotherSubresource',
                         'collection' => false,
@@ -1664,7 +1664,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/another_subresources/{anotherSubresource}/another_subresources/{anotherSubresourceAnotherSubresource}.{_format}',
                         'operation_name' => 'another_subresources_another_subresources_item_get_subresource',
                         'method' => 'GET',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_another_subresources_another_subresources_another_subresources_get_subresource' => [
                         'property' => 'anotherSubresource',
                         'collection' => true,
@@ -1679,7 +1679,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/another_subresources/{anotherSubresource}/another_subresources/{anotherSubresourceAnotherSubresource}/another_subresources.{_format}',
                         'operation_name' => 'another_subresources_another_subresources_another_subresources_get_subresource',
                         'method' => 'GET',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_another_subresources_another_subresources_another_subresources_post_subresource' => [
                         'property' => 'anotherSubresource',
                         'collection' => true,
@@ -1694,7 +1694,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/another_subresources/{anotherSubresource}/another_subresources/{anotherSubresourceAnotherSubresource}/another_subresources.{_format}',
                         'operation_name' => 'another_subresources_another_subresources_another_subresources_post_subresource',
                         'method' => 'POST',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_another_subresources_another_subresources_another_subresources_item_delete_subresource' => [
                         'property' => 'anotherSubresource',
                         'collection' => false,
@@ -1710,7 +1710,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/another_subresources/{anotherSubresource}/another_subresources/{anotherSubresourceAnotherSubresource}/another_subresources/{anotherSubresourceAnotherSubresourceAnotherSubresource}.{_format}',
                         'operation_name' => 'another_subresources_another_subresources_another_subresources_item_delete_subresource',
                         'method' => 'DELETE',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_another_subresources_another_subresources_another_subresources_item_put_subresource' => [
                         'property' => 'anotherSubresource',
                         'collection' => false,
@@ -1726,7 +1726,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/another_subresources/{anotherSubresource}/another_subresources/{anotherSubresourceAnotherSubresource}/another_subresources/{anotherSubresourceAnotherSubresourceAnotherSubresource}.{_format}',
                         'operation_name' => 'another_subresources_another_subresources_another_subresources_item_put_subresource',
                         'method' => 'PUT',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_another_subresources_another_subresources_another_subresources_item_get_subresource' => [
                         'property' => 'anotherSubresource',
                         'collection' => false,
@@ -1742,7 +1742,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/another_subresources/{anotherSubresource}/another_subresources/{anotherSubresourceAnotherSubresource}/another_subresources/{anotherSubresourceAnotherSubresourceAnotherSubresource}.{_format}',
                         'operation_name' => 'another_subresources_another_subresources_another_subresources_item_get_subresource',
                         'method' => 'GET',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                 ],
                 $expectedDeprecations = [],
             ],
@@ -1775,7 +1775,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/subcollections.{_format}',
                         'operation_name' => 'subcollections_get_subresource',
                         'method' => 'GET',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_subcollections_post_subresource' => [
                         'property' => 'subcollection',
                         'collection' => true,
@@ -1788,7 +1788,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/subcollections.{_format}',
                         'operation_name' => 'subcollections_post_subresource',
                         'method' => 'POST',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_subcollections_item_delete_subresource' => [
                         'property' => 'subcollection',
                         'collection' => false,
@@ -1802,7 +1802,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/subcollections/{subcollection}.{_format}',
                         'operation_name' => 'subcollections_item_delete_subresource',
                         'method' => 'DELETE',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_subcollections_item_put_subresource' => [
                         'property' => 'subcollection',
                         'collection' => false,
@@ -1816,7 +1816,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/subcollections/{subcollection}.{_format}',
                         'operation_name' => 'subcollections_item_put_subresource',
                         'method' => 'PUT',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_subcollections_item_get_subresource' => [
                         'property' => 'subcollection',
                         'collection' => false,
@@ -1830,7 +1830,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/subcollections/{subcollection}.{_format}',
                         'operation_name' => 'subcollections_item_get_subresource',
                         'method' => 'GET',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                 ],
                 $expectedDeprecations = [],
             ],
@@ -1874,7 +1874,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/subresources.{_format}',
                         'operation_name' => 'subresources_get_subresource',
                         'method' => 'GET',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_subresources_post_subresource' => [
                         'property' => 'subresource',
                         'collection' => true,
@@ -1887,7 +1887,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/subresources.{_format}',
                         'operation_name' => 'subresources_post_subresource',
                         'method' => 'POST',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_subresources_item_delete_subresource' => [
                         'property' => 'id',
                         'collection' => false,
@@ -1901,7 +1901,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/subresources/{subresource}.{_format}',
                         'operation_name' => 'subresources_item_delete_subresource',
                         'method' => 'DELETE',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_subresources_item_put_subresource' => [
                         'property' => 'id',
                         'collection' => false,
@@ -1915,7 +1915,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/subresources/{subresource}.{_format}',
                         'operation_name' => 'subresources_item_put_subresource',
                         'method' => 'PUT',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                     'api_dummy_entities_subresources_item_get_subresource' => [
                         'property' => 'id',
                         'collection' => false,
@@ -1929,7 +1929,7 @@ class SubresourceOperationFactoryTest extends TestCase
                         'path' => '/dummy_entities/{id}/subresources/{subresource}.{_format}',
                         'operation_name' => 'subresources_item_get_subresource',
                         'method' => 'GET',
-                    ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+                    ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
                 ],
                 $expectedDeprecations = [
                     'Declaring identifier property "id" (in class ApiPlatform\Core\Tests\Fixtures\RelatedDummyEntity) with @ApiSubresource as a workaround (https://github.com/api-platform/core/pull/1875) to enable subresource GET item operation is deprecated and will cause an error in Api-Platform 3.0. The operation(s) is now offered by default. Please remove the @ApiSubresource declaration in the "id" property.',
@@ -1967,7 +1967,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 $property = 'id'
             );
 
-        $subresourceOperationFactory = new SubresourceOperationFactory($resourceMetadataFactory, $propertyNameCollectionMetadataFactory, $propertyMetadataFactory, new UnderscorePathSegmentNameGenerator());
+        $subresourceOperationFactory = new SubresourceOperationsFactory($resourceMetadataFactory, $propertyNameCollectionMetadataFactory, $propertyMetadataFactory, new UnderscorePathSegmentNameGenerator());
 
         $result = $subresourceOperationFactory->create(DummyEntity::class);
         $this->assertEquals([
@@ -1983,7 +1983,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_item_delete_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -1996,7 +1996,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_item_put_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -2009,7 +2009,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_put_subresource',
                 'method' => 'PUT',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
         ], $result);
     }
 
@@ -2047,7 +2047,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 $property = 'anotherSubresource'
             );
 
-        $subresourceOperationFactory = new SubresourceOperationFactory($resourceMetadataFactory, $propertyNameCollectionMetadataFactory, $propertyMetadataFactory, new UnderscorePathSegmentNameGenerator());
+        $subresourceOperationFactory = new SubresourceOperationsFactory($resourceMetadataFactory, $propertyNameCollectionMetadataFactory, $propertyMetadataFactory, new UnderscorePathSegmentNameGenerator());
 
         $this->assertEquals([
             'api_dummy_entities_subresource_item_get_subresource' => [
@@ -2062,7 +2062,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/root_resource_prefix/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_get_subresource',
                 'method' => 'GET',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_item_delete_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -2075,7 +2075,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/root_resource_prefix/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_delete_subresource',
                 'method' => 'DELETE',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
             'api_dummy_entities_subresource_item_put_subresource' => [
                 'property' => 'subresource',
                 'collection' => false,
@@ -2088,7 +2088,7 @@ class SubresourceOperationFactoryTest extends TestCase
                 'path' => '/root_resource_prefix/dummy_entities/{id}/subresource.{_format}',
                 'operation_name' => 'subresource_item_put_subresource',
                 'method' => 'PUT',
-            ] + SubresourceOperationFactory::ROUTE_OPTIONS,
+            ] + SubresourceOperationsFactory::ROUTE_OPTIONS,
         ], $subresourceOperationFactory->create(DummyEntity::class));
     }
 }

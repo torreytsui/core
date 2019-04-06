@@ -26,7 +26,7 @@ use ApiPlatform\Core\Metadata\Property\SubresourceMetadata;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
 use ApiPlatform\Core\Metadata\Resource\ResourceNameCollection;
-use ApiPlatform\Core\Operation\Factory\SubresourceOperationFactoryInterface;
+use ApiPlatform\Core\Operation\Factory\SubresourceOperationsFactoryInterface;
 use ApiPlatform\Core\Tests\Fixtures\TestBundle\Serializer\NameConverter\CustomConverter;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -74,7 +74,7 @@ class DocumentationNormalizerTest extends TestCase
 
         $urlGenerator->generate('api_doc', ['_format' => 'jsonld'], 0)->willReturn('/doc')->shouldBeCalled(1);
 
-        $subresourceOperationFactoryProphecy = $this->prophesize(SubresourceOperationFactoryInterface::class);
+        $subresourceOperationFactoryProphecy = $this->prophesize(SubresourceOperationsFactoryInterface::class);
         $subresourceOperationFactoryProphecy->create('dummy')->shouldBeCalled()->willReturn([
             'api_dummies_subresource_get_related_dummy' => [
                 'property' => 'relatedDummy',

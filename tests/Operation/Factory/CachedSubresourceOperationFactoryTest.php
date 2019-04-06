@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace ApiPlatform\Core\Tests\Operation\Factory;
 
-use ApiPlatform\Core\Operation\Factory\CachedSubresourceOperationFactory;
-use ApiPlatform\Core\Operation\Factory\SubresourceOperationFactoryInterface;
+use ApiPlatform\Core\Operation\Factory\CachedSubresourceOperationsFactory;
+use ApiPlatform\Core\Operation\Factory\SubresourceOperationsFactoryInterface;
 use ApiPlatform\Core\Tests\Fixtures\TestBundle\Entity\Dummy;
 use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheException;
@@ -35,10 +35,10 @@ class CachedSubresourceOperationFactoryTest extends TestCase
         $cacheItemPool = $this->prophesize(CacheItemPoolInterface::class);
         $cacheItemPool->getItem($this->generateCacheKey())->willReturn($cacheItem->reveal())->shouldBeCalledTimes(1);
 
-        $decoratedSubresourceOperationFactory = $this->prophesize(SubresourceOperationFactoryInterface::class);
+        $decoratedSubresourceOperationFactory = $this->prophesize(SubresourceOperationsFactoryInterface::class);
         $decoratedSubresourceOperationFactory->create()->shouldNotBeCalled();
 
-        $cachedSubresourceOperationFactory = new CachedSubresourceOperationFactory($cacheItemPool->reveal(), $decoratedSubresourceOperationFactory->reveal());
+        $cachedSubresourceOperationFactory = new CachedSubresourceOperationsFactory($cacheItemPool->reveal(), $decoratedSubresourceOperationFactory->reveal());
 
         $expectedResult = ['foo' => 'bar'];
         $this->assertEquals($expectedResult, $cachedSubresourceOperationFactory->create(Dummy::class));
@@ -55,10 +55,10 @@ class CachedSubresourceOperationFactoryTest extends TestCase
         $cacheItemPool->getItem($this->generateCacheKey())->willReturn($cacheItem->reveal())->shouldBeCalledTimes(1);
         $cacheItemPool->save($cacheItem->reveal())->willReturn(true)->shouldBeCalledTimes(1);
 
-        $decoratedSubresourceOperationFactory = $this->prophesize(SubresourceOperationFactoryInterface::class);
+        $decoratedSubresourceOperationFactory = $this->prophesize(SubresourceOperationsFactoryInterface::class);
         $decoratedSubresourceOperationFactory->create(Dummy::class)->shouldBeCalledTimes(1)->willReturn(['foo' => 'bar']);
 
-        $cachedSubresourceOperationFactory = new CachedSubresourceOperationFactory($cacheItemPool->reveal(), $decoratedSubresourceOperationFactory->reveal());
+        $cachedSubresourceOperationFactory = new CachedSubresourceOperationsFactory($cacheItemPool->reveal(), $decoratedSubresourceOperationFactory->reveal());
 
         $expectedResult = ['foo' => 'bar'];
         $this->assertEquals($expectedResult, $cachedSubresourceOperationFactory->create(Dummy::class));
@@ -73,10 +73,10 @@ class CachedSubresourceOperationFactoryTest extends TestCase
         $cacheItemPool = $this->prophesize(CacheItemPoolInterface::class);
         $cacheItemPool->getItem($this->generateCacheKey())->willThrow($cacheException->reveal())->shouldBeCalledTimes(1);
 
-        $decoratedSubresourceOperationFactory = $this->prophesize(SubresourceOperationFactoryInterface::class);
+        $decoratedSubresourceOperationFactory = $this->prophesize(SubresourceOperationsFactoryInterface::class);
         $decoratedSubresourceOperationFactory->create(Dummy::class)->shouldBeCalledTimes(1)->willReturn(['foo' => 'bar']);
 
-        $cachedSubresourceOperationFactory = new CachedSubresourceOperationFactory($cacheItemPool->reveal(), $decoratedSubresourceOperationFactory->reveal());
+        $cachedSubresourceOperationFactory = new CachedSubresourceOperationsFactory($cacheItemPool->reveal(), $decoratedSubresourceOperationFactory->reveal());
 
         $expectedResult = ['foo' => 'bar'];
         $this->assertEquals($expectedResult, $cachedSubresourceOperationFactory->create(Dummy::class));
@@ -85,6 +85,6 @@ class CachedSubresourceOperationFactoryTest extends TestCase
 
     private function generateCacheKey(string $resourceClass = Dummy::class)
     {
-        return CachedSubresourceOperationFactory::CACHE_KEY_PREFIX.md5($resourceClass);
+        return CachedSubresourceOperationsFactory::CACHE_KEY_PREFIX.md5($resourceClass);
     }
 }

@@ -18,7 +18,7 @@ namespace ApiPlatform\Core\Operation\Factory;
  *
  * @author Antoine Bluchet <soyuka@gmail.com>
  */
-interface SubresourceOperationFactoryInterface
+interface SubresourceOperationsFactoryInterface
 {
     /**
      * Creates subresource operations.

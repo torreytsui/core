@@ -19,7 +19,7 @@ use Psr\Cache\CacheItemPoolInterface;
 /**
  * @internal
  */
-final class CachedSubresourceOperationFactory implements SubresourceOperationFactoryInterface
+final class CachedSubresourceOperationsFactory implements SubresourceOperationsFactoryInterface
 {
     use CachedTrait;
 
@@ -27,7 +27,7 @@ final class CachedSubresourceOperationFactory implements SubresourceOperationFac
 
     private $decorated;
 
-    public function __construct(CacheItemPoolInterface $cacheItemPool, SubresourceOperationFactoryInterface $decorated)
+    public function __construct(CacheItemPoolInterface $cacheItemPool, SubresourceOperationsFactoryInterface $decorated)
     {
         $this->cacheItemPool = $cacheItemPool;
         $this->decorated = $decorated;
